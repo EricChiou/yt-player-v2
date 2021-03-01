@@ -1,10 +1,15 @@
 <template>
   <div id="side-menu">
-    <div class="header">
-      <img src="@/assets/img/logo.png" />
+    <div v-if="props.showHeader" class="header">
+      <img class="logo" src="@/assets/img/logo.png" />
       <div class="title">YT-Player</div>
     </div>
-    <div class="content">
+    <div
+      class="content"
+      :style="{
+        height: `${props.showHeader ? 'calc(100vh - 45px - 50px)' : 'calc(100% - 50px)'}`,
+      }"
+    >
       <PlayList></PlayList>
     </div>
     <div class="footer">
@@ -29,6 +34,16 @@ import PlayList from '@/components/PlayList.vue';
 export default defineComponent({
   name: 'SideMenu',
   components: { PlayList },
+  props: {
+    showHeader: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  setup(props) {
+    console.log('11111', props);
+    return { props };
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -36,6 +51,7 @@ export default defineComponent({
 @import '@/assets/css/theme.scss';
 
 #side-menu {
+  width: 100%;
   height: 100%;
   color: theme(gray, deep);
   background-color: theme(gray);
@@ -48,9 +64,9 @@ export default defineComponent({
       display: none;
     }
 
-    img {
+    .logo {
       display: inline-block;
-      margin: 2px 2px 3px 3px;
+      margin: 2px 0 3px 3px;
       width: 40px;
       height: 40px;
       vertical-align: middle;
@@ -58,17 +74,13 @@ export default defineComponent({
 
     .title {
       display: inline-block;
-      margin: 0 0 2px 8px;
+      margin: 0 0 2px 5px;
       font-size: 32px;
       font-weight: bold;
       font-style: italic;
       color: theme(white);
       vertical-align: middle;
     }
-  }
-
-  .content {
-    height: calc(100% - 45px - 50px);
   }
 
   .footer {
