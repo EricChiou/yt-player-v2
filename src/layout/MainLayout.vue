@@ -1,13 +1,20 @@
 <template>
-  <div class="header"></div>
-  <div v-if="state.showSideMenu" class="side-menu"></div>
-  <div class="main"><slot></slot></div>
+  <div class="main-layout-header"></div>
+  <div v-if="state.showSideMenu" class="main-layout-side-menu">
+    <SideMenu></SideMenu>
+  </div>
+  <div class="main-layout-content">
+    <slot></slot>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, reactive } from 'vue';
 
+import SideMenu from '@/components/SideMenu.vue';
+
 export default defineComponent({
   name: 'MainLayout',
+  components: { SideMenu },
   setup() {
     const state = reactive({ showSideMenu: window.innerWidth > 1023 });
     const menuStyle = {
@@ -46,7 +53,7 @@ export default defineComponent({
 @import '@/assets/css/breakpoint.scss';
 @import '@/assets/css/theme.scss';
 
-.header {
+.main-layout-header {
   display: none;
   position: fixed;
   top: 0;
@@ -59,7 +66,7 @@ export default defineComponent({
   }
 }
 
-.side-menu {
+.main-layout-side-menu {
   display: inline-block;
   width: 300px;
   height: 100vh;
@@ -70,7 +77,7 @@ export default defineComponent({
   }
 }
 
-.main {
+.main-layout-content {
   display: inline-block;
   width: calc(100% - 300px);
   height: 100vh;
