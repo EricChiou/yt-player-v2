@@ -118,6 +118,10 @@ export default defineComponent({
     margin-top: 35px;
     width: 100%;
     height: calc(100vh - 35px - 40px);
+
+    @include breakpoint(l) {
+      height: calc(100vh - 35px - 35px);
+    }
   }
 
   .side-menu {

@@ -61,6 +61,10 @@ export default defineComponent({
       display: inline-block;
       width: 100px;
     }
+
+    @include breakpoint(l) {
+      height: 35px;
+    }
   }
 }
 </style>
