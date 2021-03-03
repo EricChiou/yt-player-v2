@@ -5,7 +5,20 @@
   </div> -->
   <router-view />
 </template>
+<script lang="ts">
+import { defineComponent, onMounted } from 'vue';
 
+import { getCountryCode } from '@/api/geolocation';
+
+export default defineComponent({
+  name: 'App',
+  setup() {
+    onMounted(() => {
+      getCountryCode();
+    });
+  },
+});
+</script>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 

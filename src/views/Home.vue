@@ -11,9 +11,9 @@
     "
   >
     <div v-if="state.innerWidth < 1024" class="header"><Header></Header></div>
-    <div class="palyer">palyer</div>
+    <div class="palyer"><Player></Player></div>
     <div v-if="state.innerWidth > 1023" class="side-menu"><SideMenu></SideMenu></div>
-    <div class="content">content</div>
+    <div class="content"><SearchVideo></SearchVideo></div>
   </div>
 </template>
 
@@ -22,10 +22,12 @@ import { defineComponent, reactive, onMounted, onUnmounted } from 'vue';
 
 import Header from '@/components/Header.vue';
 import SideMenu from '@/components/SideMenu.vue';
+import Player from '@/components/Player.vue';
+import SearchVideo from '@/components/SearchVideo.vue';
 
 export default defineComponent({
   name: 'Home',
-  components: { Header, SideMenu },
+  components: { Header, SideMenu, Player, SearchVideo },
   setup() {
     const state = reactive({
       innerWidth: window.innerWidth,

@@ -41,7 +41,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    console.log('11111', props);
     return { props };
   },
 });
