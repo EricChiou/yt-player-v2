@@ -7,7 +7,7 @@
     <div
       class="content"
       :style="{
-        height: `${props.showHeader ? 'calc(100vh - 45px - 50px)' : 'calc(100% - 50px)'}`,
+        height: `${props.showHeader ? 'calc(100vh - 40px - 50px)' : 'calc(100% - 50px)'}`,
       }"
     >
       <PlayList></PlayList>
@@ -56,7 +56,7 @@ export default defineComponent({
   background-color: theme(gray);
 
   .header {
-    height: 45px;
+    height: 40px;
     background-color: theme(red);
 
     @include breakpoint(l) {
@@ -66,15 +66,15 @@ export default defineComponent({
     .logo {
       display: inline-block;
       margin: 2px 0 3px 3px;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       vertical-align: middle;
     }
 
     .title {
       display: inline-block;
       margin: 0 0 2px 5px;
-      font-size: 32px;
+      font-size: 30px;
       font-weight: bold;
       font-style: italic;
       color: theme(white);

@@ -1,9 +1,12 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 import ApiUrl from '@/constants/api-url';
 import Config from '@/constants/config';
 
-export const getTrendingVideos = (regionCode: string, pageToken?: string) => {
+export const getTrendingVideos = (
+  regionCode: string,
+  pageToken?: string,
+): Promise<AxiosResponse> => {
   const params = {
     part: 'snippet,contentDetails,statistics',
     chart: 'mostPopular',

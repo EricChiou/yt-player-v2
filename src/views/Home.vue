@@ -73,7 +73,7 @@ export default defineComponent({
   .palyer {
     margin-left: 300px;
     width: calc(100% - 300px);
-    height: calc(100vh - 45px);
+    height: calc(100vh - 40px);
   }
 
   .side-menu {
@@ -96,7 +96,7 @@ export default defineComponent({
 
   .palyer {
     flex-basis: 100%;
-    height: calc(100vh - 45px);
+    height: calc(100vh - 40px);
   }
 
   .side-menu {
@@ -117,7 +117,7 @@ export default defineComponent({
   .palyer {
     margin-top: 35px;
     width: 100%;
-    height: calc(100vh - 35px - 45px);
+    height: calc(100vh - 35px - 40px);
   }
 
   .side-menu {
