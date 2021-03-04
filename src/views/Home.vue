@@ -3,9 +3,9 @@
     :id="
       state.innerWidth < 1024
         ? 'home-mobile'
-        : state.mode === 'normal'
+        : state.mode === Mode.normal
         ? 'home-normal'
-        : state.mode === 'theater'
+        : state.mode === Mode.theater
         ? 'home-theater'
         : 'home-normal'
     "
@@ -13,7 +13,9 @@
     <div v-if="state.innerWidth < 1024" class="header"><Header></Header></div>
     <div class="palyer"><Player></Player></div>
     <div v-if="state.innerWidth > 1023" class="side-menu"><SideMenu></SideMenu></div>
-    <div class="content"><SearchVideo></SearchVideo></div>
+    <div class="content">
+      <SearchVideo :changeMode="changeMode"></SearchVideo>
+    </div>
   </div>
 </template>
 
@@ -25,13 +27,18 @@ import SideMenu from '@/components/SideMenu.vue';
 import Player from '@/components/Player.vue';
 import SearchVideo from '@/components/SearchVideo.vue';
 
+export enum Mode {
+  normal = 'normal',
+  theater = 'theater',
+}
+
 export default defineComponent({
   name: 'Home',
   components: { Header, SideMenu, Player, SearchVideo },
   setup() {
     const state = reactive({
       innerWidth: window.innerWidth,
-      mode: 'normal',
+      mode: Mode.normal,
     });
 
     const resize = () => {
@@ -46,8 +53,14 @@ export default defineComponent({
       window.removeEventListener('resize', resize);
     });
 
+    const changeMode = (mode: Mode) => {
+      state.mode = mode;
+    };
+
     return {
+      Mode,
       state,
+      changeMode,
     };
   },
 });
@@ -66,6 +79,7 @@ export default defineComponent({
     right: 0;
     left: 0;
     height: 35px;
+    z-index: 999;
   }
 }
 
@@ -96,7 +110,7 @@ export default defineComponent({
 
   .palyer {
     flex-basis: 100%;
-    height: calc(100vh - 40px);
+    height: 100vh;
   }
 
   .side-menu {
@@ -110,6 +124,7 @@ export default defineComponent({
     flex-basis: calc(100% - 300px);
     justify-content: flex-start;
     align-items: stretch;
+    width: calc(100% - 300px);
   }
 }
 

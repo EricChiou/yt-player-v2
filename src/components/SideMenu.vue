@@ -7,7 +7,7 @@
     <div
       class="content"
       :style="{
-        height: `${props.showHeader ? 'calc(100vh - 40px - 50px)' : 'calc(100% - 50px)'}`,
+        height: `${props.showHeader ? 'calc(100% - 40px - 50px)' : 'calc(100% - 50px)'}`,
       }"
     >
       <PlayList></PlayList>

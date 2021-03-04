@@ -8,7 +8,7 @@ export const getTrendingVideos = (
   pageToken?: string,
 ): Promise<AxiosResponse> => {
   const params = {
-    part: 'snippet,contentDetails,statistics',
+    part: 'snippet,statistics',
     chart: 'mostPopular',
     maxResults: 20,
     regionCode: regionCode,
@@ -17,4 +17,18 @@ export const getTrendingVideos = (
   };
 
   return axios.get(ApiUrl.GET_TRENDING_VIDEOS, { params: params });
+};
+
+export const searchVideo = (keyword: string, regionCode: string, pageToken: string) => {
+  const params = {
+    part: 'snippet',
+    q: keyword,
+    maxResults: 20,
+    regionCode: regionCode,
+    type: 'video',
+    key: Config.YT_API_KEY,
+    pageToken: pageToken || undefined,
+  };
+
+  return axios.get(ApiUrl.SEARCH_VIDEOS, { params: params });
 };

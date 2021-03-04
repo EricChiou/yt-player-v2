@@ -1,4 +1,16 @@
 @mixin breakpoint($width) {
+  @if $width==xxxl {
+    @media only screen and (max-width: 2880px) {
+      @content;
+    }
+  }
+
+  @if $width==xxl {
+    @media only screen and (max-width: 1920px) {
+      @content;
+    }
+  }
+
   @if $width==xl {
     @media only screen and (max-width: 1200px) {
       @content;
