@@ -45,6 +45,10 @@ export default defineComponent({
     };
 
     const startCountDown = () => {
+      if (window.innerWidth < 768) {
+        return;
+      }
+
       clearCountDown();
 
       countDown.value = window.setTimeout(() => {

@@ -29,7 +29,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import PlayList from '@/components/PlayList.vue';
+import PlayList from '@/components/playList/PlayList.vue';
 
 export default defineComponent({
   name: 'SideMenu',

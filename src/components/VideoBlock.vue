@@ -4,7 +4,7 @@
       <div class="video-block-img-block">
         <img class="video-block-img" :src="video.thumbnailUrl" />
       </div>
-      <div class="video-block-mask">
+      <div class="video-block-mask" @click="doAddVideo">
         <div class="vert-align-mid"></div>
         <span class="video-block-mask-text">+</span>
       </div>
@@ -29,6 +29,7 @@ import { defineComponent, PropType } from 'vue';
 import Tooltip from '@/components/Tooltip.vue';
 import { Video } from '@/interface/video';
 import { Eye } from '@/components/icons';
+import { addVideo } from '@/store/player';
 
 export default defineComponent({
   name: 'VideoBlock',
@@ -46,7 +47,11 @@ export default defineComponent({
       .replace('T', ' ')
       .replaceAll('-', '/');
 
-    return { video: props.videoData, publishedAt };
+    const doAddVideo = () => {
+      addVideo(props.videoData);
+    };
+
+    return { video: props.videoData, publishedAt, doAddVideo };
   },
 });
 </script>
