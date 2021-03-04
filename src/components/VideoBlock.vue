@@ -17,7 +17,9 @@
     <Tooltip :content="video.channelTitle">
       <div class="video-block-channel-title">{{ video.channelTitle }}</div>
     </Tooltip>
-    <div class="video-block-views"><Eye></Eye>{{ video.viewCount }}</div>
+    <div class="video-block-views">
+      <template v-if="video.viewCount"><Eye></Eye>{{ video.viewCount }}</template>
+    </div>
     <div class="video-block-publish">{{ publishedAt }}</div>
   </div>
 </template>
@@ -90,7 +92,6 @@ export default defineComponent({
       right: 0;
       bottom: 0;
       left: 0;
-      z-index: 9;
 
       .video-block-img {
         width: 100%;
@@ -133,6 +134,7 @@ export default defineComponent({
   }
 
   .video-block-title {
+    height: 22px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -148,9 +150,14 @@ export default defineComponent({
     overflow: hidden;
   }
 
+  .video-block-channel-title {
+    height: 19px;
+  }
+
   .video-block-views {
     display: inline-block;
     width: calc(100% - 112px);
+    height: 15px;
 
     svg {
       margin-right: 2px;
@@ -163,6 +170,7 @@ export default defineComponent({
   .video-block-publish {
     display: inline-block;
     width: 112px;
+    height: 15px;
   }
 }
 </style>

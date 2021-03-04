@@ -3,11 +3,16 @@
     <div class="search-video-header">
       <div class="search-block">
         <div class="vert-align-mid"></div>
-        <button class="search-video-btn" :value="state.keyword" @click="refreshTrendingVideos">
+        <button class="search-video-btn" @click="refreshTrendingVideos">
           <Fire></Fire>
         </button>
         <div class="search-video-input-container">
-          <input class="search-video-input" @change="keywordOnChnage" @keyup="keywordOnKeyUp" />
+          <input
+            class="search-video-input"
+            :value="state.keyword"
+            @change="keywordOnChnage"
+            @keypress="keywordOnKeyPress"
+          />
         </div>
         <button class="search-video-btn" @click="refreshSearchVideos">
           <Search></Search>
@@ -128,6 +133,10 @@ export default defineComponent({
     };
 
     const refreshSearchVideos = () => {
+      if (!state.keyword || state.onLoading) {
+        return;
+      }
+
       state.videosList = [];
       nextPageToken.value = '';
       updateSearchVideos(state.keyword);
@@ -138,9 +147,10 @@ export default defineComponent({
       state.keyword = ele.value.trim();
     };
 
-    const keywordOnKeyUp = (e: KeyboardEvent) => {
+    const keywordOnKeyPress = (e: KeyboardEvent) => {
       const ele = e.target as HTMLInputElement;
       if (e.code === 'Enter' && ele.value) {
+        state.keyword = ele.value.trim();
         refreshSearchVideos();
       }
     };
@@ -170,7 +180,7 @@ export default defineComponent({
       change2TheaterMode,
       refreshTrendingVideos,
       keywordOnChnage,
-      keywordOnKeyUp,
+      keywordOnKeyPress,
       refreshSearchVideos,
     };
   },
