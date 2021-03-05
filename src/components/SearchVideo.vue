@@ -79,7 +79,6 @@ export default defineComponent({
               resp.data.items.map((data: any) => VideoService.parse(data)),
             );
             nextPageToken.value = resp.data.nextPageToken;
-            // console.log(state.videosList);
           }
         })
         .finally(() => {

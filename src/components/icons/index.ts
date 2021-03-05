@@ -12,6 +12,7 @@ import RepeatAll from './RepeatAll.vue';
 import RepeatOne from './RepeatOne.vue';
 import Random from './Random.vue';
 import Play from './Play.vue';
+import Add from './Add.vue';
 
 export {
   MenuIcon,
@@ -28,4 +29,5 @@ export {
   RepeatOne,
   Random,
   Play,
+  Add,
 };

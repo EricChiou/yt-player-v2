@@ -1,4 +1,10 @@
 <template>
+  <div class="play-list-add">
+    <input ref="addVideoInputRef" class="play-list-add-input" placeholder="URL / Video ID" />
+    <button class="play-list-add-btn" @click="doAddVideo">
+      <Add></Add>
+    </button>
+  </div>
   <div class="play-list-title">
     Play List
     <div
@@ -26,22 +32,24 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, watch } from 'vue';
+import { defineComponent, reactive, watch, ref } from 'vue';
 
-import player, { moveVideo } from '@/store/player';
+import player, { moveVideo, addVideo } from '@/store/player';
 import PlayListBlock from './playListBlock/PlayListBlock.vue';
-import { RepeatAll, RepeatOne, Random } from '@/components/icons';
+import { RepeatAll, RepeatOne, Random, Add } from '@/components/icons';
 import { PlayMode } from '@/constants/player';
 import VideoService from '@/service/video-service';
+import { getVideoByIds } from '@/api/video';
 
 export default defineComponent({
   name: 'PlayList',
-  components: { PlayListBlock, RepeatAll, RepeatOne, Random },
+  components: { PlayListBlock, RepeatAll, RepeatOne, Random, Add },
   setup() {
     const state = reactive({
       dragIndex: -1,
       playMode: PlayMode.normal,
     });
+    const addVideoInputRef = ref<HTMLInputElement | null>(null);
 
     watch(
       () => player.state.playMode,
@@ -89,6 +97,32 @@ export default defineComponent({
       moveVideo(state.dragIndex, player.state.list.length);
     };
 
+    const doAddVideo = () => {
+      if (!addVideoInputRef.value || !addVideoInputRef.value.value) {
+        return;
+      }
+
+      let videoId = addVideoInputRef.value.value;
+      const inputValueSep = videoId.split('?');
+
+      if (inputValueSep.length === 2) {
+        for (const kvStr of inputValueSep[1].split('&')) {
+          const kv = kvStr.split('=');
+          if (kv.length === 2 && kv[0] === 'v') {
+            videoId = kv[1];
+            break;
+          }
+        }
+      }
+
+      getVideoByIds([videoId]).then((resp) => {
+        if (resp.status === 200) {
+          const video = VideoService.parse(resp.data.items[0]);
+          addVideo(video);
+        }
+      });
+    };
+
     return {
       state,
       player,
@@ -97,6 +131,8 @@ export default defineComponent({
       onDrop,
       PlayMode,
       changePlayMode,
+      addVideoInputRef,
+      doAddVideo,
     };
   },
 });
@@ -104,6 +140,41 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/css/breakpoint.scss';
 @import '@/assets/css/theme.scss';
+
+.play-list-add {
+  padding: 0 5px;
+  height: 30px;
+
+  .play-list-add-input {
+    margin-top: 2px;
+    width: 200px;
+    height: 22px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .play-list-add-btn {
+    display: inline-block;
+    margin-top: 2px;
+    padding: 0;
+    background-color: theme(gray);
+    border: 1px solid theme(gray, deep);
+    border-radius: 2px;
+    outline: none;
+    vertical-align: top;
+    cursor: pointer;
+
+    &:active {
+      background-color: theme(gray, deep);
+    }
+
+    svg {
+      display: block;
+      width: 26px;
+      height: 26px;
+    }
+  }
+}
 
 .play-list-title {
   padding: 0 5px;
@@ -132,7 +203,7 @@ export default defineComponent({
 }
 
 #play-list {
-  height: calc(100% - 30px);
+  height: calc(100% - 30px - 30px);
   overflow: auto;
 
   &::-webkit-scrollbar {

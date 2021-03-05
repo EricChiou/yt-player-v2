@@ -21,7 +21,6 @@ export default defineComponent({
     };
 
     const onStateChange = (e: any) => {
-      console.log('onStateChange');
       if (e.data === 0) {
         playNextVideo();
       }
