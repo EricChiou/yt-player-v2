@@ -2,7 +2,7 @@
   <div
     ref="playListBlockRef"
     class="play-list-block"
-    :style="state.showAnchor ? { borderBottom: '5px solid #aaaaaa' } : undefined"
+    :style="state.showAnchor ? { borderBottom: '3px solid #aaaaaa' } : undefined"
     :draggable="state.draggable"
     @dragstart="onDragStart"
     @dragover="onDragOver"
