@@ -1,10 +1,10 @@
 <template>
   <div class="video-block">
-    <div class="video-block-img-container">
+    <div class="video-block-img-container" @click="doAddVideo">
       <div class="video-block-img-block">
         <img class="video-block-img" :src="video.thumbnailUrl" />
       </div>
-      <div class="video-block-mask" @click="doAddVideo">
+      <div class="video-block-mask">
         <div class="vert-align-mid"></div>
         <span class="video-block-mask-text">+</span>
       </div>

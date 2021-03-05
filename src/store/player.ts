@@ -19,19 +19,25 @@ const store = createStore({
       state.list = newList;
     },
     [actions.removeVideo](state, index: number) {
-      if (state.list[index]) {
-        const newList = [...state.list];
-        state.list = newList.splice(index, 1);
-      }
+      if (!state.list[index]) { return; }
+
+      const newList = [...state.list];
+      newList.splice(index, 1);
+      state.list = newList;
     },
     [actions.moveVideo](state, payload: { from: number; to: number }) {
-      if (state.list[payload.from]) {
-        const newList = [...state.list];
-        const video = state.list[payload.from];
-        newList.splice(payload.from, 1);
-        newList.splice(payload.to, 0, video);
-        state.list = newList;
-      }
+      const from = payload.from;
+      const to = payload.to;
+      if (from === to || from < 0 || to < 0) { return; }
+      if (!state.list[from] || to > state.list.length + 1) { return; }
+
+      const newList = [...state.list];
+      const video = state.list[from];
+
+      newList.splice(to, 0, video);
+      newList.splice(from < to ? from : from + 1, 1);
+
+      state.list = newList;
     },
     [actions.insertVideo](state, payload: { index: number; video: Video }) {
       const newList = [...state.list];

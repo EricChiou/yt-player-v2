@@ -5,7 +5,8 @@
       :key="`${video.id}_${index}`"
       :index="index"
       :videoData="video"
-      :onDrag="onDrag"
+      :dragIndex="state.dragIndex"
+      :setDragIndex="setDragIndex"
     ></PlayListBlock>
   </div>
 </template>
@@ -14,20 +15,17 @@ import { defineComponent, reactive } from 'vue';
 
 import player, { moveVideo } from '@/store/player';
 import PlayListBlock from './playListBlock/PlayListBlock.vue';
-import { Video } from '@/interface/video';
 
 export default defineComponent({
   name: 'PlayList',
   components: { PlayListBlock },
   setup() {
     const state = reactive({
-      dragVideoIndex: -1,
-      dragVideo: null,
-    } as { dragVideo: Video | null; dragVideoIndex: number });
+      dragIndex: -1,
+    });
 
-    const onDrag = (index: number, video: Video) => {
-      state.dragVideoIndex = index;
-      state.dragVideo = video;
+    const setDragIndex = (index: number) => {
+      state.dragIndex = index;
     };
 
     const onDragOver = (e: DragEvent) => {
@@ -35,13 +33,16 @@ export default defineComponent({
     };
 
     const onDrop = () => {
-      moveVideo(state.dragVideoIndex, player.state.list.length - 1);
-      console.log(player.state.list);
+      if (state.dragIndex < 0) {
+        return;
+      }
+      moveVideo(state.dragIndex, player.state.list.length);
     };
 
     return {
+      state,
       player,
-      onDrag,
+      setDragIndex,
       onDragOver,
       onDrop,
     };
@@ -52,5 +53,26 @@ export default defineComponent({
 #play-list {
   height: 100%;
   overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #bababa;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #909090;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #787878;
+  }
+
+  scrollbar-color: #909090 #bababa;
+  scrollbar-width: thin;
 }
 </style>

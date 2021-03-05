@@ -6,5 +6,7 @@ import Fire from './Fire.vue';
 import Search from './Search.vue';
 import Drag from './Drag.vue';
 import Clear from './Clear.vue';
+import ArrowUp from './ArrowUp.vue';
+import ArrowDown from './ArrowDown.vue';
 
-export { MenuIcon, NormalMode, TheaterMode, Eye, Fire, Search, Drag, Clear };
+export { MenuIcon, NormalMode, TheaterMode, Eye, Fire, Search, Drag, Clear, ArrowUp, ArrowDown };
