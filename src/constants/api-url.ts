@@ -8,4 +8,5 @@ export default class ApiUrl {
   // Youtube API
   public static readonly GET_TRENDING_VIDEOS = YT_API_PRE_URL + '/videos';
   public static readonly SEARCH_VIDEOS = YT_API_PRE_URL + '/search';
+  public static readonly GET_VIDEO_BY_ID = YT_API_PRE_URL + '/videos';
 }

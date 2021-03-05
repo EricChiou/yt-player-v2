@@ -114,14 +114,13 @@ export default defineComponent({
   }
 
   .side-menu {
-    flex-basis: 300px;
     justify-content: flex-start;
     align-items: stretch;
+    width: 300px;
     min-height: 100vh;
   }
 
   .content {
-    flex-basis: calc(100% - 300px);
     justify-content: flex-start;
     align-items: stretch;
     width: calc(100% - 300px);

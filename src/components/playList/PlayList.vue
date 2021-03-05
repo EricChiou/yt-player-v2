@@ -32,6 +32,7 @@ import player, { moveVideo } from '@/store/player';
 import PlayListBlock from './playListBlock/PlayListBlock.vue';
 import { RepeatAll, RepeatOne, Random } from '@/components/icons';
 import { PlayMode } from '@/constants/player';
+import VideoService from '@/service/video-service';
 
 export default defineComponent({
   name: 'PlayList',
@@ -46,6 +47,13 @@ export default defineComponent({
       () => player.state.playMode,
       () => {
         state.playMode = player.state.playMode;
+      },
+    );
+
+    watch(
+      () => player.state.list,
+      () => {
+        VideoService.savePlayListIds2Cookie();
       },
     );
 

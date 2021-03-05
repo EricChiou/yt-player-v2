@@ -9,12 +9,32 @@
 import { defineComponent, onMounted } from 'vue';
 
 import { getCountryCode } from '@/api/geolocation';
+import VideoService from '@/service/video-service';
+import { getVideoByIds } from '@/api/video';
+import { addVideo } from '@/store/player';
 
 export default defineComponent({
   name: 'App',
   setup() {
     onMounted(() => {
       getCountryCode();
+
+      try {
+        const idsStr = VideoService.getPlayListIdsFrCookie();
+        if (idsStr) {
+          const ids: string[] = JSON.parse(idsStr);
+
+          getVideoByIds(ids).then((resp) => {
+            if (resp.status === 200) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              resp.data.items.forEach((data: any) => {
+                const video = VideoService.parse(data);
+                addVideo(video);
+              });
+            }
+          });
+        }
+      } catch (error) {}
     });
   },
 });

@@ -32,3 +32,13 @@ export const searchVideo = (keyword: string, regionCode: string, pageToken: stri
 
   return axios.get(ApiUrl.SEARCH_VIDEOS, { params: params });
 };
+
+export const getVideoByIds = (videoIds: string[]) => {
+  const params = {
+    part: 'snippet',
+    id: videoIds.toString(),
+    key: Config.YT_API_KEY,
+  };
+
+  return axios.get(ApiUrl.GET_VIDEO_BY_ID, { params: params });
+};
