@@ -15,7 +15,7 @@ const store = createStore({
   state: {
     list: [] as Video[],
     currentVideo: { index: -1, video: null as Video | null },
-    playMode: PlayMode.reandom,
+    playMode: PlayMode.normal,
   },
   mutations: {
     [actions.addVideo](state, video: Video) {

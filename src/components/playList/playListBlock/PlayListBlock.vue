@@ -24,6 +24,9 @@
     </div>
     <div class="play-list-block-thumbnail" @click="playVideo">
       <img :src="props.videoData.thumbnailUrl" />
+      <div v-if="state.showPlaying" class="play-list-block-thumbnail-playing">
+        <Play></Play>
+      </div>
     </div>
     <div class="play-list-block-content" @click="playVideo">
       <Tooltip :content="props.videoData.title">
@@ -37,17 +40,17 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive, ref, watch } from 'vue';
 
 import player, { moveVideo, removeVideo, setCurrentVideo } from '@/store/player';
 import { Video } from '@/interface/video';
 import Tooltip from '@/components/Tooltip.vue';
-import { Drag, Clear, ArrowUp, ArrowDown } from '@/components/icons';
+import { Drag, Clear, ArrowUp, ArrowDown, Play } from '@/components/icons';
 import { getDeviceInfo } from '@/util/deviceDetector-util';
 
 export default defineComponent({
   name: 'PlayListBlock',
-  components: { Tooltip, Drag, Clear, ArrowUp, ArrowDown },
+  components: { Tooltip, Drag, Clear, ArrowUp, ArrowDown, Play },
   props: {
     index: { type: Number, required: true },
     videoData: { type: Object as PropType<Video>, required: true },
@@ -58,9 +61,27 @@ export default defineComponent({
     const state = reactive({
       draggable: false,
       showAnchor: false,
+      showPlaying: false,
     });
     const playListBlockRef = ref<HTMLDivElement | null>(null);
     const deviceInfo = getDeviceInfo();
+
+    watch(
+      () => player.state.currentVideo,
+      () => {
+        const currentVideo = player.state.currentVideo;
+        if (!currentVideo.video) {
+          state.showPlaying = false;
+          return;
+        }
+
+        if (currentVideo.index === props.index && currentVideo.video.id === props.videoData.id) {
+          state.showPlaying = true;
+        } else {
+          state.showPlaying = false;
+        }
+      },
+    );
 
     const enableDrag = () => {
       state.draggable = true;
@@ -187,6 +208,7 @@ export default defineComponent({
   }
 
   .play-list-block-thumbnail {
+    position: relative;
     width: 80px;
     height: 55px;
     background-color: #000000;
@@ -195,6 +217,20 @@ export default defineComponent({
     img {
       margin: 5px 0;
       width: 100%;
+    }
+
+    .play-list-block-thumbnail-playing {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+
+      svg {
+        display: block;
+        width: 25px;
+        height: 25px;
+        color: theme(red);
+      }
     }
   }
 

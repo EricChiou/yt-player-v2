@@ -85,6 +85,7 @@ export default defineComponent({
   .footer {
     height: 50px;
     text-align: center;
+    box-shadow: 0px -1px 3px -2px theme(gray, deep);
 
     .line {
       padding: 2.5px;

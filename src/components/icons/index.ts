@@ -8,5 +8,24 @@ import Drag from './Drag.vue';
 import Clear from './Clear.vue';
 import ArrowUp from './ArrowUp.vue';
 import ArrowDown from './ArrowDown.vue';
+import RepeatAll from './RepeatAll.vue';
+import RepeatOne from './RepeatOne.vue';
+import Random from './Random.vue';
+import Play from './Play.vue';
 
-export { MenuIcon, NormalMode, TheaterMode, Eye, Fire, Search, Drag, Clear, ArrowUp, ArrowDown };
+export {
+  MenuIcon,
+  NormalMode,
+  TheaterMode,
+  Eye,
+  Fire,
+  Search,
+  Drag,
+  Clear,
+  ArrowUp,
+  ArrowDown,
+  RepeatAll,
+  RepeatOne,
+  Random,
+  Play,
+};
