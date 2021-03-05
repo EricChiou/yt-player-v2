@@ -1,17 +1,21 @@
 import { createStore } from 'vuex';
 
 import { Video } from '@/interface/video';
+import { PlayMode } from '@/constants/player';
 
 const actions = {
   addVideo: 'addVideo',
   removeVideo: 'removeVideo',
   moveVideo: 'moveVideo',
   insertVideo: 'insertVideo',
+  setCurrentVideo: 'setCurrentVideo',
 };
 
 const store = createStore({
   state: {
     list: [] as Video[],
+    currentVideo: { index: -1, video: null as Video | null },
+    playMode: PlayMode.reandom,
   },
   mutations: {
     [actions.addVideo](state, video: Video) {
@@ -43,19 +47,26 @@ const store = createStore({
       const newList = [...state.list];
       state.list = newList.splice(payload.index, 0, payload.video);
     },
+    [actions.setCurrentVideo](state, payload: { index: number; video: Video }) {
+      state.currentVideo = payload;
+    },
+
   },
   actions: {
-    addVideo({ commit }, video: Video) {
+    [actions.addVideo]({ commit }, video: Video) {
       commit(actions.addVideo, video);
     },
-    removeVideo({ commit }, index: number) {
+    [actions.removeVideo]({ commit }, index: number) {
       commit(actions.removeVideo, index);
     },
-    moveVideo({ commit }, payload: { from: number; to: number }) {
+    [actions.moveVideo]({ commit }, payload: { from: number; to: number }) {
       commit(actions.moveVideo, payload);
     },
-    insertVideo({ commit }, payload: { index: number; video: Video }) {
+    [actions.insertVideo]({ commit }, payload: { index: number; video: Video }) {
       commit(actions.insertVideo, payload);
+    },
+    [actions.setCurrentVideo]({ commit }, payload: { index: number; video: Video }) {
+      commit(actions.setCurrentVideo, payload);
     },
   },
 });
@@ -76,4 +87,73 @@ export const moveVideo = (from: number, to: number) => {
 
 export const insertVideo = (index: number, video: Video) => {
   store.dispatch(actions.insertVideo, { index, video });
+};
+
+export const setCurrentVideo = (index: number, video: Video | null) => {
+  store.dispatch(actions.setCurrentVideo, { index, video });
+};
+
+const playNormal = (videoList: Video[], currentIndex: number) => {
+  if (videoList[currentIndex + 1]) {
+    store.dispatch(actions.setCurrentVideo, {
+      index: currentIndex + 1,
+      video: videoList[currentIndex + 1],
+    });
+  } else {
+    store.dispatch(actions.setCurrentVideo, { index: -1, video: null });
+  }
+};
+
+const playRepeatAll = (videoList: Video[], currentIndex: number) => {
+  if (videoList[currentIndex + 1]) {
+    store.dispatch(actions.setCurrentVideo, {
+      index: currentIndex + 1,
+      video: videoList[currentIndex + 1],
+    });
+  } else if (videoList[0]) {
+    store.dispatch(actions.setCurrentVideo, { index: 0, video: videoList[0] });
+  } else {
+    store.dispatch(actions.setCurrentVideo, { index: -1, video: null });
+  }
+};
+
+const playRepeatOne = (videoList: Video[], currentIndex: number) => {
+  if (videoList[currentIndex]) {
+    store.dispatch(actions.setCurrentVideo, {
+      index: currentIndex,
+      video: videoList[currentIndex],
+    });
+  } else {
+    store.dispatch(actions.setCurrentVideo, { index: -1, video: null });
+  }
+};
+
+const playRandom = (videoList: Video[]) => {
+  const random = Math.floor(Math.random() * videoList.length);
+  if (videoList[random]) {
+    store.dispatch(actions.setCurrentVideo, { index: random, video: videoList[random] });
+  } else {
+    store.dispatch(actions.setCurrentVideo, { index: -1, video: null });
+  }
+};
+
+export const playNextVideo = () => {
+  const videoList = store.state.list;
+  const currentIndex = store.state.currentVideo.index;
+
+  switch (store.state.playMode) {
+    case PlayMode.normal:
+      playNormal(videoList, currentIndex);
+      break;
+    case PlayMode.repeatAll:
+      playRepeatAll(videoList, currentIndex);
+      break;
+    case PlayMode.repeatOne:
+      playRepeatOne(videoList, currentIndex);
+      break;
+    case PlayMode.reandom: {
+      playRandom(videoList);
+      break;
+    }
+  }
 };

@@ -39,7 +39,7 @@
 <script lang="ts">
 import { defineComponent, PropType, reactive, ref } from 'vue';
 
-import player, { moveVideo, removeVideo } from '@/store/player';
+import player, { moveVideo, removeVideo, setCurrentVideo } from '@/store/player';
 import { Video } from '@/interface/video';
 import Tooltip from '@/components/Tooltip.vue';
 import { Drag, Clear, ArrowUp, ArrowDown } from '@/components/icons';
@@ -118,6 +118,10 @@ export default defineComponent({
       removeVideo(props.index);
     };
 
+    const playVideo = () => {
+      setCurrentVideo(props.index, props.videoData);
+    };
+
     return {
       props,
       state,
@@ -132,6 +136,7 @@ export default defineComponent({
       playListBlockRef,
       doRemoveVideo,
       deviceInfo,
+      playVideo,
     };
   },
 });

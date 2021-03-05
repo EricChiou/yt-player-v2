@@ -5,21 +5,26 @@
 </template>
 <script lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineComponent, reactive, onMounted } from 'vue';
+import { defineComponent, reactive, onMounted, watch } from 'vue';
+
+import player, { playNextVideo } from '@/store/player';
 
 export default defineComponent({
   name: 'Player',
   setup() {
     const state = reactive({
-      ytPlayer: null,
+      ytPlayer: null as any,
     });
 
     const onReady = () => {
-      console.log('onReady');
+      console.log('YT Player onReady');
     };
 
-    const onStateChange = () => {
+    const onStateChange = (e: any) => {
       console.log('onStateChange');
+      if (e.data === 0) {
+        playNextVideo();
+      }
     };
 
     const initYtPlayer = () => {
@@ -38,6 +43,17 @@ export default defineComponent({
         }, 500);
       }
     };
+
+    watch(
+      () => player.state.currentVideo,
+      () => {
+        if (!state.ytPlayer || !player.state.currentVideo.video) {
+          return;
+        }
+
+        state.ytPlayer.loadVideoById(player.state.currentVideo.video.id);
+      },
+    );
 
     onMounted(() => {
       initYtPlayer();

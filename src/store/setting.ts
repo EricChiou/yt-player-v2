@@ -14,7 +14,7 @@ const store = createStore({
     },
   },
   actions: {
-    setCountryCode({ commit }, countryCode: string) {
+    [actions.setCountryCode]({ commit }, countryCode: string) {
       commit(actions.setCountryCode, countryCode);
     },
   },
