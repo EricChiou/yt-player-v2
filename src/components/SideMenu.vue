@@ -3,6 +3,9 @@
     <div v-if="props.showHeader" class="header">
       <img class="logo" src="@/assets/img/logo.png" />
       <div class="title">YT-Player</div>
+      <div class="side-menu-login">
+        <Login></Login>
+      </div>
     </div>
     <div
       class="content"
@@ -30,10 +33,11 @@
 import { defineComponent } from 'vue';
 
 import PlayList from '@/components/playList/PlayList.vue';
+import Login from '@/components/Login.vue';
 
 export default defineComponent({
   name: 'SideMenu',
-  components: { PlayList },
+  components: { PlayList, Login },
   props: {
     showHeader: {
       type: Boolean,
@@ -74,10 +78,19 @@ export default defineComponent({
     .title {
       display: inline-block;
       margin: 0 0 2px 5px;
+      width: calc(100% - 5px - 38px - 40px);
       font-size: 30px;
       font-weight: bold;
       font-style: italic;
       color: theme(white);
+      vertical-align: middle;
+    }
+
+    .side-menu-login {
+      display: inline-block;
+      padding: 5px;
+      width: 30px;
+      height: 30px;
       vertical-align: middle;
     }
   }

@@ -8,16 +8,16 @@
   <div class="play-list-title">
     Play List
     <div
-      v-if="state.playMode === PlayMode.normal"
+      v-if="playMode === PlayMode.normal"
       class="play-mode play-mode-disable"
       @click="changePlayMode"
     >
       <RepeatAll></RepeatAll>
     </div>
-    <div v-if="state.playMode !== PlayMode.normal" class="play-mode" @click="changePlayMode">
-      <RepeatAll v-if="state.playMode === PlayMode.repeatAll"></RepeatAll>
-      <RepeatOne v-if="state.playMode === PlayMode.repeatOne"></RepeatOne>
-      <Random v-if="state.playMode === PlayMode.reandom"></Random>
+    <div v-if="playMode !== PlayMode.normal" class="play-mode" @click="changePlayMode">
+      <RepeatAll v-if="playMode === PlayMode.repeatAll"></RepeatAll>
+      <RepeatOne v-if="playMode === PlayMode.repeatOne"></RepeatOne>
+      <Random v-if="playMode === PlayMode.reandom"></Random>
     </div>
   </div>
   <div id="play-list" @dragover="onDragOver" @drop="onDrop">
@@ -32,7 +32,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, watch, ref } from 'vue';
+import { defineComponent, reactive, watch, ref, computed } from 'vue';
 
 import player, { moveVideo, addVideo } from '@/store/player';
 import PlayListBlock from './playListBlock/PlayListBlock.vue';
@@ -47,16 +47,10 @@ export default defineComponent({
   setup() {
     const state = reactive({
       dragIndex: -1,
-      playMode: PlayMode.normal,
     });
     const addVideoInputRef = ref<HTMLInputElement | null>(null);
 
-    watch(
-      () => player.state.playMode,
-      () => {
-        state.playMode = player.state.playMode;
-      },
-    );
+    const playMode = computed(() => player.state.playMode);
 
     watch(
       () => player.state.list,
@@ -133,6 +127,7 @@ export default defineComponent({
       changePlayMode,
       addVideoInputRef,
       doAddVideo,
+      playMode,
     };
   },
 });

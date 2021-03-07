@@ -3,6 +3,7 @@ $colors: ( //
   white:(base:#ffffff, deep:#eeeeee),
   black: (base:#333333, deep:#000000),
   red:(base:#e84545),
+  green:(base:#54e346),
 );
 
 @function theme($color, $type:'base', $map : $colors) {

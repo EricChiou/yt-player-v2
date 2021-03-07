@@ -96,6 +96,7 @@ export default defineComponent({
     left: 0;
     width: 300px;
     height: 100vh;
+    z-index: 999;
   }
 
   .content {

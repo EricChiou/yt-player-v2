@@ -24,7 +24,7 @@
     </div>
     <div class="play-list-block-thumbnail" @click="playVideo">
       <img :src="props.videoData.thumbnailUrl" />
-      <div v-if="state.showPlaying" class="play-list-block-thumbnail-playing">
+      <div v-if="showPlaying" class="play-list-block-thumbnail-playing">
         <Play></Play>
       </div>
     </div>
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref, watch } from 'vue';
+import { defineComponent, PropType, reactive, ref, computed } from 'vue';
 
 import player, { moveVideo, removeVideo, setCurrentVideo } from '@/store/player';
 import { Video } from '@/interface/video';
@@ -61,27 +61,22 @@ export default defineComponent({
     const state = reactive({
       draggable: false,
       showAnchor: false,
-      showPlaying: false,
     });
     const playListBlockRef = ref<HTMLDivElement | null>(null);
     const deviceInfo = getDeviceInfo();
 
-    watch(
-      () => player.state.currentVideo,
-      () => {
-        const currentVideo = player.state.currentVideo;
-        if (!currentVideo.video) {
-          state.showPlaying = false;
-          return;
-        }
+    const showPlaying = computed(() => {
+      const currentVideo = player.state.currentVideo;
+      if (!currentVideo.video) {
+        return false;
+      }
 
-        if (currentVideo.index === props.index && currentVideo.video.id === props.videoData.id) {
-          state.showPlaying = true;
-        } else {
-          state.showPlaying = false;
-        }
-      },
-    );
+      if (currentVideo.index === props.index && currentVideo.video.id === props.videoData.id) {
+        return true;
+      } else {
+        return false;
+      }
+    });
 
     const enableDrag = () => {
       state.draggable = true;
@@ -158,6 +153,7 @@ export default defineComponent({
       doRemoveVideo,
       deviceInfo,
       playVideo,
+      showPlaying,
     };
   },
 });
@@ -168,7 +164,6 @@ export default defineComponent({
 
 .play-list-block {
   padding: 2.5px 0;
-  // white-space: nowrap;
 
   .play-list-block-drag,
   .play-list-block-move,
