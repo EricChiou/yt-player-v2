@@ -25,9 +25,13 @@
         </template>
         <template v-if="isLogin">
           <div class="login-dialog-body">
-            <div class="login-dialog-body-option"><Setting></Setting> Settings</div>
-            <div class="login-dialog-body-option"><Password></Password> Change Password</div>
-            <div class="login-dialog-body-option" @click="doLogout"><Logout></Logout> Logout</div>
+            <div class="login-dialog-body-option"><Setting></Setting>&nbsp;&nbsp;Settings</div>
+            <div class="login-dialog-body-option">
+              <Password></Password>&nbsp;&nbsp;Change Password
+            </div>
+            <div class="login-dialog-body-option" @click="doLogout">
+              <Logout></Logout>&nbsp;&nbsp;Logout
+            </div>
           </div>
         </template>
       </div>
@@ -201,6 +205,6 @@ export default defineComponent({
 }
 
 .active {
-  color: theme(green);
+  color: theme(white);
 }
 </style>
