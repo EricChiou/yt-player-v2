@@ -14,6 +14,9 @@ import Random from './Random.vue';
 import Play from './Play.vue';
 import Add from './Add.vue';
 import Power from './Power.vue';
+import Setting from './Setting.vue';
+import Password from './Password.vue';
+import Logout from './Logout.vue';
 
 export {
   MenuIcon,
@@ -32,4 +35,7 @@ export {
   Play,
   Add,
   Power,
+  Setting,
+  Password,
+  Logout,
 };

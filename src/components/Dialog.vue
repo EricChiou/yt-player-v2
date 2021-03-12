@@ -1,8 +1,6 @@
 <template>
   <div v-if="showDialog" :class="dialogClass" @click="closeDialog">
-    <div class="dialog-content" @click="contentOnClick">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 <script lang="ts">
@@ -31,19 +29,18 @@ export default defineComponent({
       props.mask ? 'dialog-container dialog-mask' : 'dialog-container',
     );
 
-    const contentOnClick = (e: Event) => {
-      e.stopPropagation();
-    };
-
-    const closeDialog = () => {
+    const closeDialog = (e: MouseEvent) => {
       if (!props.closeByClick || !props.close) {
         return;
       }
 
-      props.close();
+      const target = e.target as HTMLDivElement;
+      if (target.className.indexOf('dialog-container') > -1) {
+        props.close();
+      }
     };
 
-    return { showDialog, dialogClass, closeDialog, contentOnClick };
+    return { showDialog, dialogClass, closeDialog };
   },
 });
 </script>
@@ -59,11 +56,6 @@ export default defineComponent({
   left: 0;
   text-align: center;
   z-index: 999;
-
-  .dialog-content {
-    display: inline-block;
-    text-align: left;
-  }
 }
 
 .dialog-mask {

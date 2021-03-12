@@ -1,5 +1,6 @@
 <template>
   <div id="header">
+    <div class="login"><Login></Login></div>
     <img class="logo" src="@/assets/img/logo.png" />
     <div class="title">YT-Player</div>
     <div class="menu-btn">
@@ -15,10 +16,11 @@ import { defineComponent, reactive } from 'vue';
 
 import SideMenu from '@/components/SideMenu.vue';
 import { MenuIcon } from '@/components/icons';
+import Login from '@/components/Login.vue';
 
 export default defineComponent({
   name: 'Header',
-  components: { MenuIcon, SideMenu },
+  components: { MenuIcon, SideMenu, Login },
   setup() {
     const state = reactive({ showMenu: false });
 
@@ -38,6 +40,18 @@ export default defineComponent({
   position: relative;
   height: 100%;
   background-color: theme(red);
+
+  .login {
+    display: none;
+    margin-left: 1px;
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+
+    @include breakpoint(l) {
+      display: inline-block;
+    }
+  }
 
   .logo {
     display: inline-block;
