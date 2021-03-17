@@ -113,6 +113,9 @@ export default defineComponent({
         if (resp.status === 200) {
           const video = VideoService.parse(resp.data.items[0]);
           addVideo(video);
+          if (addVideoInputRef.value) {
+            addVideoInputRef.value.value = '';
+          }
         }
       });
     };

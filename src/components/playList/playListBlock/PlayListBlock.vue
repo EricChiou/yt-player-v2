@@ -175,6 +175,7 @@ export default defineComponent({
   }
 
   .play-list-block-drag {
+    margin-left: 2px;
     width: 20px;
     height: 55px;
     background-color: rgba(0, 0, 0, 0.15);
@@ -204,6 +205,7 @@ export default defineComponent({
 
   .play-list-block-thumbnail {
     position: relative;
+    margin-left: 2px;
     width: 80px;
     height: 55px;
     background-color: #000000;
@@ -231,7 +233,7 @@ export default defineComponent({
 
   .play-list-block-content {
     margin-left: 2px;
-    width: calc(100% - 122px);
+    width: calc(100% - 2px - 22px - 82px - 22px);
     cursor: pointer;
 
     .play-list-block-title {
@@ -249,6 +251,7 @@ export default defineComponent({
   }
 
   .play-list-block-remove {
+    margin-right: 2px;
     width: 20px;
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
