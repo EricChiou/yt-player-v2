@@ -1,6 +1,6 @@
 {
-  "name": "yt-player",
-  "short_name": "yt-player",
+  "name": "YT Player",
+  "short_name": "YT Player",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
