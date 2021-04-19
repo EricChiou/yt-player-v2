@@ -5,7 +5,10 @@
       <div class="login-dialog-block">
         <div class="login-dialog-header">
           <Power class="login-dialog-header-svg"></Power>
-          <span class="login-dialog-header-text">Login</span>
+          <span class="login-dialog-header-text">
+            <template v-if="!isLogin">Login</template>
+            <template v-if="isLogin">{{ userInterface.name }}</template>
+          </span>
           <Clear class="login-dialog-header-close" @click="closeDialog"></Clear>
         </div>
         <template v-if="!isLogin">
@@ -42,7 +45,7 @@
 import { defineComponent, reactive, computed } from 'vue';
 
 import { Power, Clear, Setting, Password, Logout } from '@/components/icons';
-import user, { setUserStatus } from '@/store/user';
+import user, { setUserStatus, setUserInterface } from '@/store/user';
 import { UserStatus } from '@/constants/user';
 import Dialog from '@/components/Dialog.vue';
 import { BaseInput, BaseButton, ButtonType } from '@/components/common';
@@ -68,6 +71,7 @@ export default defineComponent({
       }
     });
     const isLogin = computed(() => user.state.status === UserStatus.login);
+    const userInterface = computed(() => user.state.userInterface);
 
     const showDialog = () => {
       state.showDialog = true;
@@ -78,17 +82,20 @@ export default defineComponent({
     };
 
     const doLogin = () => {
+      setUserInterface({ name: 'userName' });
       setUserStatus(UserStatus.login);
       state.showDialog = false;
     };
 
     const doLogout = () => {
+      setUserInterface({ name: null });
       setUserStatus(UserStatus.logout);
       state.showDialog = false;
     };
 
     return {
       state,
+      userInterface,
       btnClass,
       showDialog,
       closeDialog,
