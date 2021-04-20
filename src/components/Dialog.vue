@@ -35,7 +35,7 @@ export default defineComponent({
       }
 
       const target = e.target as HTMLDivElement;
-      if (target.className.indexOf('dialog-container') > -1) {
+      if (target.className.indexOf && target.className.indexOf('dialog-container') > -1) {
         props.close();
       }
     };

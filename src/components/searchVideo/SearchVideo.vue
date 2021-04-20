@@ -3,9 +3,7 @@
     <div class="search-video-header">
       <div class="search-block">
         <div class="vert-align-mid"></div>
-        <button class="search-video-btn" @click="refreshTrendingVideos">
-          <Fire></Fire>
-        </button>
+        <TrendingVideo :click="refreshTrendingVideos"></TrendingVideo>
         <div class="search-video-input-container">
           <input
             class="search-video-input"
@@ -14,22 +12,23 @@
             @keypress="keywordOnKeyPress"
           />
         </div>
-        <button class="search-video-btn" @click="refreshSearchVideos">
-          <Search></Search>
-        </button>
+        <Search :click="refreshSearchVideos"></Search>
+        <ViewList :click="showCollectionList"></ViewList>
       </div>
       <div class="mode-block">
         <div class="vert-align-mid"></div>
-        <button class="search-video-btn" @click="change2NormalMode">
-          <NormalMode></NormalMode>
-        </button>
-        <button class="search-video-btn" @click="change2TheaterMode">
-          <TheaterMode></TheaterMode>
-        </button>
+        <NormalMode :click="change2NormalMode"></NormalMode>
+        <TheaterMode :click="change2TheaterMode"></TheaterMode>
       </div>
     </div>
     <div class="search-video-list">
-      <VideoBlock v-for="video in state.videosList" :key="video.id" :videoData="video"></VideoBlock>
+      <template v-if="!state.listType">
+        <VideoBlock
+          v-for="video in state.videosList"
+          :key="video.id"
+          :videoData="video"
+        ></VideoBlock>
+      </template>
       <div class="search-video-loading" v-if="state.onLoading">
         <img src="@/assets/img/loading.gif" />
       </div>
@@ -43,14 +42,18 @@ import { AxiosResponse } from 'axios';
 
 import setting from '@/store/setting';
 import { getTrendingVideos, searchVideo } from '@/api/video';
-import { NormalMode, TheaterMode, Fire, Search } from '@/components/icons';
 import { Mode } from '@/views/Home.vue';
 import VideoService from '@/service/video-service';
 import VideoBlock from '@/components/VideoBlock.vue';
+import NormalMode from './searchVideoBtn/NormalMode.vue';
+import TheaterMode from './searchVideoBtn/TheaterMode.vue';
+import Search from './searchVideoBtn/Search.vue';
+import ViewList from './searchVideoBtn/ViewList.vue';
+import TrendingVideo from './searchVideoBtn/TrendingVideo.vue';
 
 export default defineComponent({
   name: 'SearchVideo',
-  components: { NormalMode, TheaterMode, VideoBlock, Fire, Search },
+  components: { NormalMode, TheaterMode, TrendingVideo, Search, ViewList, VideoBlock },
   props: {
     changeMode: {
       type: Function as PropType<(mode: Mode) => void>,
@@ -58,10 +61,12 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const mainCollectionName = 'main';
     const state = reactive({
       videosList: [],
       keyword: '',
       onLoading: false,
+      listType: '',
     });
     const nextPageToken = ref('');
 
@@ -87,10 +92,15 @@ export default defineComponent({
     };
 
     const refreshTrendingVideos = () => {
+      state.listType = '';
       state.keyword = '';
       state.videosList = [];
       nextPageToken.value = '';
       updateTrendingVideos();
+    };
+
+    const showCollectionList = () => {
+      state.listType = mainCollectionName;
     };
 
     watch(
@@ -136,6 +146,7 @@ export default defineComponent({
         return;
       }
 
+      state.listType = '';
       state.videosList = [];
       nextPageToken.value = '';
       updateSearchVideos(state.keyword);
@@ -157,10 +168,13 @@ export default defineComponent({
     const onScroll = (e: Event) => {
       const ele = e.target as HTMLBodyElement;
       if (ele.scrollHeight - ele.scrollTop < ele.clientHeight + 50) {
-        if (state.keyword) {
-          updateSearchVideos(state.keyword);
+        if (state.listType) {
         } else {
-          updateTrendingVideos();
+          if (state.keyword) {
+            updateSearchVideos(state.keyword);
+          } else {
+            updateTrendingVideos();
+          }
         }
       }
     };
@@ -181,6 +195,7 @@ export default defineComponent({
       keywordOnChnage,
       keywordOnKeyPress,
       refreshSearchVideos,
+      showCollectionList,
     };
   },
 });
@@ -195,28 +210,6 @@ export default defineComponent({
   .search-video-header {
     height: 40px;
     background-color: theme(red);
-
-    .search-video-btn {
-      display: inline-block;
-      margin-right: 1px;
-      padding: 0;
-      background-color: theme(gray);
-      border: 1px solid theme(gray, deep);
-      border-radius: 2px;
-      outline: none;
-      vertical-align: middle;
-      cursor: pointer;
-
-      &:active {
-        background-color: theme(gray, deep);
-      }
-
-      svg {
-        display: block;
-        width: 28px;
-        height: 28px;
-      }
-    }
 
     .search-block {
       display: inline-block;

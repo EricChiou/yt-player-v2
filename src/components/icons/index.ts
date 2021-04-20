@@ -17,6 +17,7 @@ import Power from './Power.vue';
 import Setting from './Setting.vue';
 import Password from './Password.vue';
 import Logout from './Logout.vue';
+import ViewList from './ViewList.vue';
 
 export {
   MenuIcon,
@@ -38,4 +39,5 @@ export {
   Setting,
   Password,
   Logout,
+  ViewList,
 };

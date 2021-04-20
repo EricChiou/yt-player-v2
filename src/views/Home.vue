@@ -25,7 +25,7 @@ import { defineComponent, reactive, onMounted, onUnmounted } from 'vue';
 import Header from '@/components/Header.vue';
 import SideMenu from '@/components/SideMenu.vue';
 import Player from '@/components/Player.vue';
-import SearchVideo from '@/components/SearchVideo.vue';
+import SearchVideo from '@/components/searchVideo/SearchVideo.vue';
 
 export enum Mode {
   normal = 'normal',
