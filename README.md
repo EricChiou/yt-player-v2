@@ -1,5 +1,5 @@
 # yt-player-v2
-Demo: https://www.calicomoomoo.ml/yt-player/
+Demo: https://www.calicomoomoo.com/yt-player/
 
 ## Project setup
 ```

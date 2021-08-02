@@ -17,7 +17,7 @@
     </div>
     <div class="footer">
       <div class="line">
-        <a href="https://www.calicomoomoo.ml/entrance/" target="_blank">
+        <a href="https://www.calicomoomoo.com/entrance/" target="_blank">
           <span class="text">入口網站</span>
         </a>
         |
